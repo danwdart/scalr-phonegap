@@ -32,7 +32,11 @@
 
         this.login = function() {
             this.render('login').then(function() {
-                document.getElementById('frmLogin');
+                document.getElementById('frmLogin').addEventListener('submit', function(e) {
+                    var formData = new FormData(this);
+                    console.log(formData)
+                    e.preventDefault();
+                });
             });
 
         }.bind(this);
@@ -46,11 +50,9 @@
                 .then(
                     function(data) {
                         this.html('main', data);
-                        return 'it worked';
                     }.bind(this),
                     function(data) {
                         this.html('main', 'Failed');
-                        return 'it did not work';
                     }.bind(this)
                 );
         }.bind(this);
@@ -81,46 +83,6 @@
                 domElems[i].innerHTML = data;
             }
         };
-    },
-    Promise = function(cb) {
-        this.status = 'pending';
-        this.value = null;
-        this.returned = null;
-
-        this.then = function(success, failure) {
-
-            if ('resolved' == this.status) {
-                success(this.value);
-                return;
-            }
-            if ('rejected' == this.status) {
-                failure(this.value);
-                return;
-            }
-
-            cb(
-                function(value) {
-                   success(this.resolve(value));
-                }.bind(this),
-                function(value) {
-                    failure(this.reject(value));
-                }.bind(this)
-            );
-            return;          
-
-        }.bind(this);
-
-        this.resolve = function(value) {
-            this.value = value;
-            this.status = 'resolved';
-            return value;
-        }.bind(this);
-
-        this.reject = function(value) {
-            this.value = value;
-            this.status = 'rejected';
-            return value;
-        }.bind(this);
     },
     app = new App();
     app.start();
