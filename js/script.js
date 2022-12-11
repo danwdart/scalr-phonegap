@@ -27,7 +27,7 @@
         }.bind(this);
 
         this.genSignature = function(action, keyid, timestamp) {
-            
+
         };
 
         this.login = function() {
@@ -40,7 +40,7 @@
             });
 
         }.bind(this);
-        
+
         this.isLoggedIn = function() {
             return false;
         };
@@ -67,7 +67,7 @@
                         reject('Error');
                     }
                 });
-                
+
                 xhr.addEventListener('error', function() {
                     reject('Error');
                 });
